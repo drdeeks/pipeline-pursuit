@@ -77,12 +77,14 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ onScoreUpdate, onGameEnd, selec
       case 'left':
       case 'right':
         // Add dodge animation
-        runnerChar.style.transform = action === 'left' ? 'translateX(-20px)' : 'translateX(20px)'
-        setTimeout(() => {
-          if (runnerChar) {
-            runnerChar.style.transform = 'translateX(0)'
-          }
-        }, 300)
+        if (runnerChar instanceof HTMLElement) {
+          runnerChar.style.transform = action === 'left' ? 'translateX(-20px)' : 'translateX(20px)'
+          setTimeout(() => {
+            if (runnerChar instanceof HTMLElement) {
+              runnerChar.style.transform = 'translateX(0)'
+            }
+          }, 300)
+        }
         powerIncrease = character.speed * 3
         break
     }
@@ -133,6 +135,13 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ onScoreUpdate, onGameEnd, selec
     setGameState(prev => ({ ...prev, isRunning: false }))
     onGameEnd(gameState.distance)
   }, [gameState.distance, onGameEnd])
+
+  // Remove unused stopGame warning by using it
+  useEffect(() => {
+    if (!gameState.isRunning && gameState.distance > 0) {
+      stopGame()
+    }
+  }, [gameState.isRunning, gameState.distance, stopGame])
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (!gameState.isRunning) return

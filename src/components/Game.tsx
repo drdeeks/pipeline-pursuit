@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useAccount } from 'wagmi'
 import GameCanvas from './GameCanvas'
 import Leaderboard from './Leaderboard'
@@ -12,8 +12,7 @@ interface GameStats {
 }
 
 const Game: React.FC = () => {
-  const { address, isConnected } = useAccount()
-  const [currentScore, setCurrentScore] = useState(0)
+  const { isConnected } = useAccount()
   const [gameStats, setGameStats] = useState<GameStats>({
     distance: 0,
     tokens: 0,
@@ -34,7 +33,6 @@ const Game: React.FC = () => {
   }
 
   const handleScoreUpdate = (score: number) => {
-    setCurrentScore(score)
     setGameStats(prev => ({
       ...prev,
       distance: score,

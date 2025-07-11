@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react'
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
-import { parseEther, formatEther } from 'viem'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
 // Contract ABI - you'll need to update this with the actual ABI after compilation
@@ -226,7 +224,7 @@ export function useLeaderboard() {
         functionName: 'getLeaderboard',
       })
       
-      return data
+      return data as LeaderboardEntry[]
     },
     refetchInterval: 30000, // Refetch every 30 seconds
   })

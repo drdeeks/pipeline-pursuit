@@ -9,7 +9,6 @@ const Leaderboard: React.FC = () => {
     playerScore,
     playerPosition,
     isLoadingLeaderboard,
-    isLoadingPlayerScore,
   } = useLeaderboard()
 
   const formatAddress = (address: string) => {
@@ -51,7 +50,7 @@ const Leaderboard: React.FC = () => {
             <div className="stat">
               <span className="stat-label">Position</span>
               <span className="stat-value">
-                {playerPosition > 0 ? `#${playerPosition}` : 'Not ranked'}
+                {playerPosition && playerPosition > 0 ? `#${playerPosition}` : 'Not ranked'}
               </span>
             </div>
             <div className="stat">
