@@ -1,0 +1,71 @@
+# Deployment Guide for Pipeline Pursuit
+
+## Smart Contract Deployment
+
+### Prerequisites
+- MONAD testnet tokens (get from https://faucet.monad.xyz)
+- Private key configured in [env.example](mdc:env.example)
+- Hardhat configured in [hardhat.config.cjs](mdc:hardhat.config.cjs)
+
+### Deploy to Monad Testnet
+```bash
+# Deploy contract
+npm run deploy
+
+# Verify contract
+npx hardhat verify <contract_address> --network monadTestnet
+```
+
+### Contract Details
+- **Address**: `0xdF5d0917518233a5A9d67a9BFBCB1DBAb2367174`
+- **Network**: Monad Testnet (Chain ID: 10143)
+- **Explorer**: https://testnet.monadexplorer.com/address/0xdF5d0917518233a5A9d67a9BFBCB1DBAb2367174
+
+## Frame Deployment
+
+### Automated Deployment (Recommended)
+```bash
+npm run deploy:frame
+```
+
+### Manual Vercel Deployment
+1. Install Vercel CLI: `npm i -g vercel`
+2. Login: `vercel login`
+3. Deploy: `vercel --prod`
+4. Set environment variables in Vercel dashboard
+
+### Environment Variables Required
+- `VITE_FARCASTER_APP_URL` - Your deployed domain
+- `VITE_CONTRACT_ADDRESS` - Deployed contract address
+- `MONAD_RPC_URL` - Monad testnet RPC URL
+
+## Deployment Scripts
+
+### Smart Contract Scripts
+- [scripts/deploy.cjs](mdc:scripts/deploy.cjs) - Automated contract deployment
+- [scripts/import-keystore.cjs](mdc:scripts/import-keystore.cjs) - Wallet import utility
+
+### Frame Deployment Scripts
+- [scripts/deploy-frame.cjs](mdc:scripts/deploy-frame.cjs) - Automated Vercel deployment
+
+## Configuration Files
+- [hardhat.config.cjs](mdc:hardhat.config.cjs) - Hardhat configuration for Monad
+- [vercel.json](mdc:vercel.json) - Vercel deployment configuration
+- [env.example](mdc:env.example) - Environment variables template
+
+## Post-Deployment Steps
+1. Update environment variables with deployed URLs
+2. Test Frame functionality
+3. Verify contract on explorer
+4. Share Frame URL on Warpcast
+5. Monitor logs for any issues
+
+## Troubleshooting
+- **Contract Deployment**: Check MONAD balance and private key
+- **Frame Deployment**: Verify environment variables and Vercel configuration
+- **Frame Testing**: Use Farcaster Frame Validator
+- **Logs**: Check Vercel/Netlify function logs for errors
+description:
+globs:
+alwaysApply: false
+---

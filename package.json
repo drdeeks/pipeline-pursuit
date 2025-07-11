@@ -1,0 +1,46 @@
+{
+  "name": "pipeline-pursuit-miniapp",
+  "version": "1.0.0",
+  "description": "Pipeline Pursuit - A Farcaster Mini App",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "test:watch": "hardhat test --watch",
+    "test:gas": "REPORT_GAS=true hardhat test",
+    "node": "hardhat node",
+    "deploy": "hardhat run scripts/deploy.cjs --network monadTestnet",
+    "deploy:local": "hardhat run scripts/deploy.cjs --network localhost",
+    "deploy:frame": "node scripts/deploy-frame.cjs",
+    "import-keystore": "node scripts/import-keystore.cjs"
+  },
+  "dependencies": {
+    "@farcaster/connect-kit": "^0.0.30",
+    "@tanstack/react-query": "^5.17.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "viem": "^2.7.9",
+    "wagmi": "^2.5.7"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@openzeppelin/contracts": "^5.0.1",
+    "@typechain/ethers-v6": "^0.5.0",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "hardhat": "^2.19.4",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8"
+  }
+} 

@@ -1,0 +1,38 @@
+# Frontend Development Guidelines
+
+## React Application Structure
+The main app entry point is [src/main.tsx](mdc:src/main.tsx) which renders [src/App.tsx](mdc:src/App.tsx).
+
+### Key Components
+- **Game Component**: [src/components/Game.tsx](mdc:src/components/Game.tsx) - Main game logic with cosmic theme
+- **Leaderboard Component**: [src/components/Leaderboard.tsx](mdc:src/components/Leaderboard.tsx) - Onchain leaderboard display
+- **WalletConnect Component**: [src/components/WalletConnect.tsx](mdc:src/components/WalletConnect.tsx) - Wallet integration
+
+### Custom Hooks
+- **useLeaderboard**: [src/hooks/useLeaderboard.ts](mdc:src/hooks/useLeaderboard.ts) - Contract interaction hook using wagmi
+
+## Game Features
+- **Character Selection**: Choose from cosmic characters (Smantha, Fake0ne, Frycook, Shitposter)
+- **Cosmic Theme**: Space-themed obstacles and animations
+- **Score System**: Real-time scoring with power-ups
+- **Leaderboard Integration**: Submit scores to Monad testnet
+
+## Styling
+- **Global Styles**: [src/styles/global.css](mdc:src/styles/global.css) - Cosmic background and global styles
+- **Component Styles**: [src/styles/Game.css](mdc:src/styles/Game.css) - Game-specific animations and layout
+- **Responsive Design**: Works on desktop and mobile devices
+
+## Development Commands
+- `npm run dev` - Start development server (localhost:5173)
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+
+## Integration Points
+- **Farcaster Connect Kit**: For authentication and social features
+- **Wagmi**: For wallet connection and contract interaction
+- **Viem**: For blockchain interactions
+- **Contract Address**: Uses `VITE_CONTRACT_ADDRESS` environment variable
+description:
+globs:
+alwaysApply: false
+---

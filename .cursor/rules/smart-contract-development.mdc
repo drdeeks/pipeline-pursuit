@@ -1,0 +1,41 @@
+# Smart Contract Development Guidelines
+
+## Contract Architecture
+The main contract is [contracts/PipelinePursuitLeaderboard.sol](mdc:contracts/PipelinePursuitLeaderboard.sol) which manages:
+- Score submissions with minimum threshold
+- Automatic sorting by highest scores
+- Player position tracking
+- Farcaster ID integration
+
+## Development Commands
+- `npm run compile` - Compile contracts
+- `npm run deploy` - Deploy to Monad testnet
+- `npm run deploy:local` - Deploy to local Hardhat node
+- `npm test` - Run test suite
+- `npm run test:gas` - Run gas optimization tests
+
+## Configuration
+- **Hardhat Config**: [hardhat.config.cjs](mdc:hardhat.config.cjs) - Configured for Monad testnet
+- **Deployment Script**: [scripts/deploy.cjs](mdc:scripts/deploy.cjs) - Automated deployment with verification
+- **Environment**: Uses [env.example](mdc:env.example) for configuration
+
+## Testing
+- **Test Files**: Located in [test/](mdc:test/) directory
+- **Coverage**: Includes contract functionality, game logic, integration tests, and gas optimization
+- **Framework**: Hardhat test suite with comprehensive assertions
+
+## Deployment Process
+1. Contract is deployed to Monad testnet (Chain ID: 10143)
+2. Automatically verified on Sourcify
+3. Contract address saved to environment variables
+4. Explorer links provided for verification
+
+## Key Contract Functions
+- `submitScore(score, playerName, fid)` - Submit new score
+- `getLeaderboard()` - Get all leaderboard entries
+- `getTopScores(count)` - Get top N scores
+- `getPlayerPosition(address)` - Get player's current rank
+description:
+globs:
+alwaysApply: false
+---

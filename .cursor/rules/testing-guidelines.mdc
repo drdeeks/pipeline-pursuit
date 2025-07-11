@@ -1,0 +1,64 @@
+# Testing Guidelines for Pipeline Pursuit
+
+## Test Structure
+Tests are located in the [test/](mdc:test/) directory and cover:
+- Smart contract functionality
+- Game logic and character systems
+- Integration tests
+- Gas optimization tests
+
+## Test Commands
+```bash
+npm test              # Run all tests
+npm run test:watch    # Run tests in watch mode
+npm run test:gas      # Run gas optimization tests
+```
+
+## Test Categories
+
+### Smart Contract Tests
+- **Contract Deployment**: Verify contract deploys correctly
+- **Score Submission**: Test score submission with various inputs
+- **Leaderboard Management**: Test sorting, limits, and retrieval
+- **Access Control**: Test owner functions and permissions
+- **Edge Cases**: Test boundary conditions and error handling
+
+### Game Logic Tests
+- **Character System**: Test character stats and abilities
+- **Scoring System**: Test score calculation and power-ups
+- **Game State**: Test game state management and transitions
+- **Integration**: Test React component integration
+
+### Gas Optimization Tests
+- **Gas Costs**: Monitor and optimize gas usage
+- **Efficiency**: Test contract efficiency improvements
+- **Cost Analysis**: Compare gas costs across different operations
+
+## Test Best Practices
+1. **Comprehensive Coverage**: Test all public functions
+2. **Edge Cases**: Test boundary conditions and error scenarios
+3. **Gas Optimization**: Monitor gas costs and optimize where possible
+4. **Integration Testing**: Test full workflows from frontend to contract
+5. **Mock Data**: Use realistic test data for accurate results
+
+## Test Framework
+- **Framework**: Hardhat test suite
+- **Assertions**: Chai assertions for comprehensive testing
+- **Fixtures**: Reusable test data and setup
+- **Gas Reporting**: Automatic gas cost reporting with `REPORT_GAS=true`
+
+## Running Specific Tests
+```bash
+# Run specific test file
+npx hardhat test test/PipelinePursuitLeaderboard.test.ts
+
+# Run with gas reporting
+REPORT_GAS=true npx hardhat test
+
+# Run with verbose output
+npx hardhat test --verbose
+```
+description:
+globs:
+alwaysApply: false
+---

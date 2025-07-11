@@ -1,0 +1,42 @@
+# Pipeline Pursuit - Farcaster Mini App Project Overview
+
+## Project Structure
+This is a Farcaster Mini App with onchain leaderboard functionality on Monad testnet. The main entry point is [index.html](mdc:index.html), which loads the React app from [src/main.tsx](mdc:src/main.tsx).
+
+### Key Directories
+- **src/**: React application with game components and hooks
+- **contracts/**: Solidity smart contracts for the leaderboard
+- **api/**: Farcaster Frame API endpoints
+- **scripts/**: Deployment and utility scripts
+- **test/**: Comprehensive test suite for contracts and game logic
+
+### Core Files
+- [package.json](mdc:package.json): Project configuration and scripts
+- [hardhat.config.cjs](mdc:hardhat.config.cjs): Hardhat configuration for Monad testnet
+- [vercel.json](mdc:vercel.json): Vercel deployment configuration
+- [env.example](mdc:env.example): Environment variables template
+
+### Smart Contract
+- **Contract**: [contracts/PipelinePursuitLeaderboard.sol](mdc:contracts/PipelinePursuitLeaderboard.sol)
+- **Address**: `0xdF5d0917518233a5A9d67a9BFBCB1DBAb2367174` (Monad testnet)
+- **Explorer**: https://testnet.monadexplorer.com/address/0xdF5d0917518233a5A9d67a9BFBCB1DBAb2367174
+
+### Frame API
+- **Endpoint**: [api/frame.ts](mdc:api/frame.ts) - Handles Farcaster Frame interactions
+- **Configuration**: Uses environment variables for dynamic URLs
+
+## Development Workflow
+1. Use `npm run dev` for local development
+2. Use `npm run deploy` for smart contract deployment
+3. Use `npm run deploy:frame` for Frame deployment to Vercel
+4. Use `npm test` for running the test suite
+
+## Key Technologies
+- **Frontend**: React + TypeScript + Vite
+- **Blockchain**: Hardhat + Solidity + Monad testnet
+- **Deployment**: Vercel for Frame, Hardhat for contracts
+- **Testing**: Hardhat test suite with comprehensive coverage
+description:
+globs:
+alwaysApply: false
+---

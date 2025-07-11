@@ -1,0 +1,55 @@
+# Farcaster Frame Development Guidelines
+
+## Frame API
+The main Frame endpoint is [api/frame.ts](mdc:api/frame.ts) which handles:
+- Frame validation and responses
+- Button click interactions
+- Dynamic content generation
+- Error handling
+
+## Frame Configuration
+- **Vercel Config**: [vercel.json](mdc:vercel.json) - Deployment configuration with proper headers
+- **Deployment Script**: [scripts/deploy-frame.cjs](mdc:scripts/deploy-frame.cjs) - Automated Vercel deployment
+- **Environment Variables**: Uses `VITE_FARCASTER_APP_URL` for dynamic URLs
+
+## Frame Features
+- **Button**: "Play Pipeline Pursuit" action
+- **Image**: Dynamic og-image.png (needs to be added to public/)
+- **Post URL**: `/api/frame` endpoint
+- **Version**: vNext Frame specification
+
+## Deployment Options
+
+### Automated Deployment
+```bash
+npm run deploy:frame
+```
+
+### Manual Vercel Deployment
+1. Install Vercel CLI: `npm i -g vercel`
+2. Login: `vercel login`
+3. Deploy: `vercel --prod`
+4. Set environment variables in Vercel dashboard
+
+### Alternative Platforms
+- **Netlify**: Use Netlify CLI with functions
+- **Railway**: Use Railway CLI for deployment
+
+## Frame Testing
+1. **Frame Validator**: https://warpcast.com/~/developers/frames
+2. **Warpcast Testing**: Share Frame URL on Warpcast
+3. **Debug Logs**: Check Vercel/Netlify function logs
+
+## Environment Variables Required
+- `VITE_FARCASTER_APP_URL` - Your deployed domain
+- `VITE_CONTRACT_ADDRESS` - Deployed contract address
+- `MONAD_RPC_URL` - Monad testnet RPC URL
+
+## Frame URL Structure
+- **Frame Endpoint**: `https://your-domain.com/api/frame`
+- **Frame Image**: `https://your-domain.com/og-image.png`
+- **App URL**: `https://your-domain.com`
+description:
+globs:
+alwaysApply: false
+---
