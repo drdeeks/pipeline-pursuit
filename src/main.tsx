@@ -50,4 +50,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </QueryClientProvider>
     </WagmiProvider>
   </React.StrictMode>,
-) 
+)
+
+// Signal Farcaster MiniApp ready (if available)
+if (window.farcaster?.miniapps?.ready) {
+  window.farcaster.miniapps.ready();
+} 
