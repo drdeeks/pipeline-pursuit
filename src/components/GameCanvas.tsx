@@ -21,7 +21,7 @@ interface PowerUp {
   id: string
 }
 
-const GameCanvas: React.FC<GameCanvasProps> = ({ onScoreUpdate, onGameEnd, selectedCharacterImage }) => {
+const GameCanvas: React.FC<GameCanvasProps> = ({ onScoreUpdate, onGameEnd, selectedCharacterImage, gameStarted }) => {
   const gameRef = useRef<HTMLDivElement>(null)
   const animationRef = useRef<number>()
   const [gameState, setGameState] = useState({
@@ -245,13 +245,13 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ onScoreUpdate, onGameEnd, selec
 
   // Start game when gameStarted prop becomes true
   useEffect(() => {
-    if (props.gameStarted) {
+    if (gameStarted) {
       startGame()
     } else {
       setGameState(prev => ({ ...prev, isRunning: false }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.gameStarted])
+  }, [gameStarted])
 
   // Power decrease effect
   useEffect(() => {
