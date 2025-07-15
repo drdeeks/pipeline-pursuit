@@ -183,3 +183,5 @@ pnpm-lock.yaml
 # Local configuration overrides
 config.local.js
 config.local.json 
+.cursor/rules/ 
+.cursor/rules-* 

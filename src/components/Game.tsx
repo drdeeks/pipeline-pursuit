@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
 import { useAccount } from 'wagmi'
 import GameCanvas from './GameCanvas'
-import Leaderboard from './Leaderboard'
 import './Game.css'
+
+const avatarImages = [
+  '/avatars/avatar1.png',
+  '/avatars/avatar2.png',
+  '/avatars/avatar3.png',
+  '/avatars/avatar4.png',
+  '/avatars/avatar5.png',
+] // Add your images to public/avatars/
 
 interface GameStats {
   distance: number
@@ -13,29 +20,20 @@ interface GameStats {
 
 const Game: React.FC = () => {
   const { isConnected } = useAccount()
+  const [showCharacterModal, setShowCharacterModal] = useState(true)
+  const [selectedCharacterImage, setSelectedCharacterImage] = useState<string | undefined>(undefined)
   const [gameStats, setGameStats] = useState<GameStats>({
     distance: 0,
     tokens: 0,
     maxSpeed: 1.0,
     bestRun: parseInt(localStorage.getItem('bestRun') || '0')
   })
-  const [showLeaderboard, setShowLeaderboard] = useState(false)
-  const [showCharacterModal, setShowCharacterModal] = useState(false)
-  const [selectedCharacter, setSelectedCharacter] = useState('smantha')
 
-  const monanimals = {
-    smantha: { emoji: '🐨', speed: 1.2, jump: 1.0, slide: 1.1, name: 'Smantha' },
-    fake0ne: { emoji: '🎭', speed: 1.0, jump: 1.4, slide: 0.8, name: 'Fake0ne' },
-    frycook: { emoji: '🍳', speed: 1.4, jump: 0.9, slide: 1.0, name: 'Frycook' },
-    'nad-og': { emoji: '👑', speed: 0.9, jump: 1.2, slide: 1.3, name: 'Nad-OG' },
-    mo: { emoji: '🎯', speed: 1.1, jump: 1.1, slide: 1.2, name: 'Mo' },
-    shitposter: { emoji: '💩', speed: 1.3, jump: 1.3, slide: 0.7, name: 'Shitposter' }
-  }
-
-  const handleScoreUpdate = (score: number) => {
+  const handleScoreUpdate = (score: number, tokens: number) => {
     setGameStats(prev => ({
       ...prev,
       distance: score,
+      tokens: tokens,
       maxSpeed: Math.max(prev.maxSpeed, 1.0 + (score / 1000))
     }))
   }
@@ -48,18 +46,14 @@ const Game: React.FC = () => {
     }
   }
 
-  const selectCharacter = (characterId: string) => {
-    setSelectedCharacter(characterId)
-  }
-
   return (
     <div className="game-container">
       <h1 className="main-header">🐾 MONANIMAL TEMPLE DASH 🏛️</h1>
       
-      <GameCanvas 
+      <GameCanvas
         onScoreUpdate={handleScoreUpdate}
         onGameEnd={handleGameEnd}
-        selectedCharacter={selectedCharacter}
+        selectedCharacterImage={selectedCharacterImage}
       />
       
       <div className="stats-grid">
@@ -88,7 +82,7 @@ const Game: React.FC = () => {
       <div className="action-buttons">
         <button 
           className="mega-button" 
-          onClick={() => setShowLeaderboard(!showLeaderboard)}
+          onClick={() => {}}
         >
           📊 LEADERBOARD
         </button>
@@ -96,7 +90,7 @@ const Game: React.FC = () => {
           className="mega-button" 
           onClick={() => setShowCharacterModal(true)}
         >
-          🐾 CHOOSE MONANIMAL
+          🐾 CHOOSE AVATAR
         </button>
         {isConnected && (
           <button className="mega-button">
@@ -105,55 +99,35 @@ const Game: React.FC = () => {
         )}
       </div>
       
-      {showLeaderboard && (
-        <div className="leaderboard-container">
-          <Leaderboard />
-        </div>
-      )}
-      
       {/* Character Selection Modal */}
       {showCharacterModal && (
         <div className="screen-overlay active">
           <div className="modal-content">
-            <button 
-              className="close-btn" 
+            <button
+              className="close-btn"
               onClick={() => setShowCharacterModal(false)}
             >
               ×
             </button>
             <h2 style={{ textAlign: 'center', marginBottom: '30px', color: '#fbbf24', fontSize: '28px' }}>
-              🐾 Choose Your Monanimal
+              🐾 Choose Your Avatar
             </h2>
-            
             <div className="monanimal-selector">
-              {Object.entries(monanimals).map(([id, character]) => (
-                <div 
-                  key={id}
-                  className={`monanimal-option ${selectedCharacter === id ? 'selected' : ''}`}
-                  onClick={() => selectCharacter(id)}
+              {/* Avatar image options */}
+              {avatarImages.map((img, idx) => (
+                <div
+                  key={img}
+                  className={`monanimal-option ${selectedCharacterImage === img ? 'selected' : ''}`}
+                  onClick={() => setSelectedCharacterImage(img)}
                 >
-                  <div className="monanimal-avatar">{character.emoji}</div>
-                  <div className="monanimal-name">{character.name}</div>
-                  <div className="monanimal-trait">
-                    {id === 'smantha' && 'Balanced Runner'}
-                    {id === 'fake0ne' && 'High Jumper'}
-                    {id === 'frycook' && 'Speed Demon'}
-                    {id === 'nad-og' && 'Slide Master'}
-                    {id === 'mo' && 'Precision Runner'}
-                    {id === 'shitposter' && 'Chaos Agent'}
-                  </div>
-                  <div className="monanimal-stats">
-                    <div className="mini-stat">Speed: {character.speed}</div>
-                    <div className="mini-stat">Jump: {character.jump}</div>
-                    <div className="mini-stat">Slide: {character.slide}</div>
-                  </div>
+                  <img src={img} alt={`Avatar ${idx + 1}`} className="monanimal-avatar" style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover', border: '3px solid #fbbf24', background: '#fff' }} />
+                  <div className="monanimal-name">Avatar {idx + 1}</div>
                 </div>
               ))}
             </div>
-            
             <div style={{ textAlign: 'center', marginTop: '30px' }}>
-              <button 
-                className="mega-button" 
+              <button
+                className="mega-button"
                 onClick={() => setShowCharacterModal(false)}
               >
                 ✨ CONFIRM SELECTION
