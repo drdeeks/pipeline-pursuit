@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import { useAccount } from 'wagmi'
 import GameCanvas from './GameCanvas'
+import { useLeaderboard } from '../hooks/useLeaderboard'
 import './Game.css'
 
-const avatarImages = [
-  '/avatars/avatar1.png',
-  '/avatars/avatar2.png',
-  '/avatars/avatar3.png',
-  '/avatars/avatar4.png',
-  '/avatars/avatar5.png',
-] // Add your images to public/avatars/
+const avatars = [
+  { image: '/avatars/smantha.png', name: 'Smantha' },
+  { image: '/avatars/fake0ne.png', name: 'Fake0ne' },
+  { image: '/avatars/frycook.png', name: 'Frycook' },
+  { image: '/avatars/nad-og.png', name: 'Nad-OG' },
+  { image: '/avatars/mo.png', name: 'Mo' },
+  { image: '/avatars/shitposter.png', name: 'Shitposter' },
+]
 
 interface GameStats {
   distance: number
@@ -21,13 +23,15 @@ interface GameStats {
 const Game: React.FC = () => {
   const { isConnected } = useAccount()
   const [showCharacterModal, setShowCharacterModal] = useState(true)
-  const [selectedCharacterImage, setSelectedCharacterImage] = useState<string | undefined>(undefined)
+  const [selectedAvatarIdx, setSelectedAvatarIdx] = useState<number | undefined>(undefined)
+  const [gameStarted, setGameStarted] = useState(false)
   const [gameStats, setGameStats] = useState<GameStats>({
     distance: 0,
     tokens: 0,
     maxSpeed: 1.0,
     bestRun: parseInt(localStorage.getItem('bestRun') || '0')
   })
+  const { submitScore, isSubmittingScore } = useLeaderboard()
 
   const handleScoreUpdate = (score: number, tokens: number) => {
     setGameStats(prev => ({
@@ -46,16 +50,49 @@ const Game: React.FC = () => {
     }
   }
 
+  const handleStartGame = () => {
+    setGameStarted(true)
+  }
+
+  const handleRestart = () => {
+    setGameStarted(false)
+  }
+
+  const handleSubmitScore = () => {
+    if (selectedAvatarIdx === undefined) return
+    submitScore({
+      score: gameStats.distance,
+      playerName: avatars[selectedAvatarIdx].name,
+      fid: 0 // Replace with real FID if available
+    })
+  }
+
   return (
     <div className="game-container">
       <h1 className="main-header">🐾 MONANIMAL TEMPLE DASH 🏛️</h1>
-      
-      <GameCanvas
-        onScoreUpdate={handleScoreUpdate}
-        onGameEnd={handleGameEnd}
-        selectedCharacterImage={selectedCharacterImage}
-      />
-      
+      {!gameStarted ? (
+        <div className="game-start">
+          <h2>Welcome to Pipeline Pursuit!</h2>
+          <p>Choose your avatar and get ready to dash through the temple.</p>
+          <button className="mega-button" onClick={() => setShowCharacterModal(true)}>
+            🐾 Choose Avatar
+          </button>
+          <button
+            className="start-game-btn"
+            onClick={handleStartGame}
+            disabled={selectedAvatarIdx === undefined}
+            style={{ marginTop: 24 }}
+          >
+            🚀 Start Game
+          </button>
+        </div>
+      ) : (
+        <GameCanvas
+          onScoreUpdate={handleScoreUpdate}
+          onGameEnd={handleGameEnd}
+          selectedCharacterImage={selectedAvatarIdx !== undefined ? avatars[selectedAvatarIdx].image : undefined}
+        />
+      )}
       <div className="stats-grid">
         <div className="stat-card">
           <span className="stat-icon">🏃‍♂️</span>
@@ -78,27 +115,28 @@ const Game: React.FC = () => {
           <div className="stat-value">{gameStats.bestRun > 0 ? gameStats.bestRun + 'm' : '-'}</div>
         </div>
       </div>
-      
       <div className="action-buttons">
-        <button 
-          className="mega-button" 
-          onClick={() => {}}
-        >
+        <button className="mega-button" onClick={() => {}}>
           📊 LEADERBOARD
         </button>
-        <button 
-          className="mega-button" 
-          onClick={() => setShowCharacterModal(true)}
-        >
+        <button className="mega-button" onClick={() => setShowCharacterModal(true)}>
           🐾 CHOOSE AVATAR
         </button>
         {isConnected && (
-          <button className="mega-button">
+          <button
+            className="mega-button submit-leaderboard-btn"
+            onClick={handleSubmitScore}
+            disabled={isSubmittingScore || !gameStats.distance}
+          >
             🚀 SUBMIT TO LEADERBOARD
           </button>
         )}
+        {gameStarted && (
+          <button className="mega-button" onClick={handleRestart}>
+            🔄 RESTART
+          </button>
+        )}
       </div>
-      
       {/* Character Selection Modal */}
       {showCharacterModal && (
         <div className="screen-overlay active">
@@ -114,14 +152,14 @@ const Game: React.FC = () => {
             </h2>
             <div className="monanimal-selector">
               {/* Avatar image options */}
-              {avatarImages.map((img, idx) => (
+              {avatars.map((avatar, idx) => (
                 <div
-                  key={img}
-                  className={`monanimal-option ${selectedCharacterImage === img ? 'selected' : ''}`}
-                  onClick={() => setSelectedCharacterImage(img)}
+                  key={avatar.image}
+                  className={`monanimal-option ${selectedAvatarIdx === idx ? 'selected' : ''}`}
+                  onClick={() => setSelectedAvatarIdx(idx)}
                 >
-                  <img src={img} alt={`Avatar ${idx + 1}`} className="monanimal-avatar" style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover', border: '3px solid #fbbf24', background: '#fff' }} />
-                  <div className="monanimal-name">Avatar {idx + 1}</div>
+                  <img src={avatar.image} alt={avatar.name} className="monanimal-avatar" style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover', border: '3px solid #fbbf24', background: '#fff' }} />
+                  <div className="monanimal-name">{avatar.name}</div>
                 </div>
               ))}
             </div>
@@ -129,6 +167,7 @@ const Game: React.FC = () => {
               <button
                 className="mega-button"
                 onClick={() => setShowCharacterModal(false)}
+                disabled={selectedAvatarIdx === undefined}
               >
                 ✨ CONFIRM SELECTION
               </button>

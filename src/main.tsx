@@ -21,10 +21,31 @@ const config = createConfig({
 
 const queryClient = new QueryClient()
 
+declare global {
+  interface Window {
+    farcaster?: {
+      miniapps?: {
+        ready?: () => void
+      }
+    }
+  }
+}
+
+function ReadyEffect() {
+  React.useEffect(() => {
+    // Farcaster Mini App ready call (see https://miniapps.farcaster.xyz/docs/guides/loading)
+    if (window.farcaster && window.farcaster.miniapps && typeof window.farcaster.miniapps.ready === 'function') {
+      window.farcaster.miniapps.ready()
+    }
+  }, [])
+  return null
+}
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
+        <ReadyEffect />
         <App />
       </QueryClientProvider>
     </WagmiProvider>

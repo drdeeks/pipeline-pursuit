@@ -4,6 +4,7 @@ interface GameCanvasProps {
   onScoreUpdate: (score: number, tokens: number) => void
   onGameEnd: (score: number) => void
   selectedCharacterImage?: string
+  gameStarted?: boolean
 }
 
 interface Obstacle {
@@ -242,14 +243,15 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ onScoreUpdate, onGameEnd, selec
     }
   }, [handleKeyDown])
 
-  // Auto-start game when component mounts
+  // Start game when gameStarted prop becomes true
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (props.gameStarted) {
       startGame()
-    }, 1000)
-    
-    return () => clearTimeout(timer)
-  }, [startGame])
+    } else {
+      setGameState(prev => ({ ...prev, isRunning: false }))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.gameStarted])
 
   // Power decrease effect
   useEffect(() => {
